@@ -2,7 +2,7 @@
 const prettierConfig = {
   printWidth: 100,
   singleQuote: true,
-  objectWrap: 'collapse',
+  proseWrap: 'preserve',
   plugins: [
     'prettier-plugin-tailwindcss',
     'prettier-plugin-packagejson',
