@@ -14,7 +14,8 @@
     "jsx": "react-jsx",
     "incremental": true,
     "plugins": [{ "name": "next" }],
-    "paths": { "@/*": ["./src/*"] }
+    "paths": { "@/*": ["./src/*"] },
+    "noImplicitReturns": true
   },
   "exclude": ["node_modules"],
   "include": [

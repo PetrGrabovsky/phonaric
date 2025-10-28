@@ -132,6 +132,195 @@ const eslintConfig = defineConfig([
 
   ...configs.strictTypeChecked,
 
+  {
+    name: 'typescript/custom',
+    files: TS_FILE_GLOBS,
+    rules: {
+      '@typescript-eslint/adjacent-overload-signatures': 'error',
+      '@typescript-eslint/array-type': [
+        'error',
+        {
+          default: 'array-simple',
+          readonly: 'array-simple',
+        },
+      ],
+      '@typescript-eslint/ban-tslint-comment': 'error',
+      '@typescript-eslint/consistent-generic-constructors': ['error', 'type-annotation'],
+      '@typescript-eslint/consistent-indexed-object-style': ['error', 'record'],
+      '@typescript-eslint/consistent-type-assertions': [
+        'error',
+        {
+          assertionStyle: 'as',
+          objectLiteralTypeAssertions: 'never',
+        },
+      ],
+      '@typescript-eslint/consistent-type-definitions': ['error', 'type'],
+      '@typescript-eslint/consistent-type-exports': [
+        'error',
+        { fixMixedExportsWithInlineTypeSpecifier: true },
+      ],
+      '@typescript-eslint/consistent-type-imports': [
+        'error',
+        {
+          prefer: 'type-imports',
+          fixStyle: 'inline-type-imports',
+        },
+      ],
+      '@typescript-eslint/default-param-last': 'error',
+      '@typescript-eslint/dot-notation': [
+        'error',
+        {
+          allowIndexSignaturePropertyAccess: true,
+        },
+      ],
+      '@typescript-eslint/method-signature-style': ['error', 'property'],
+      '@typescript-eslint/naming-convention': [
+        'error',
+        {
+          selector: 'function',
+          modifiers: ['exported'],
+          filter: { match: true, regex: '^(GET|POST|PUT|PATCH|DELETE|HEAD|OPTIONS)$' },
+          format: null,
+        },
+        {
+          selector: 'variable',
+          modifiers: ['exported', 'const'],
+          filter: { match: true, regex: '^(GET|POST|PUT|PATCH|DELETE|HEAD|OPTIONS)$' },
+          format: null,
+        },
+        {
+          selector: 'variableLike',
+          format: ['camelCase'],
+          leadingUnderscore: 'allow',
+          trailingUnderscore: 'forbid',
+        },
+        {
+          selector: 'variable',
+          modifiers: ['const'],
+          format: ['camelCase', 'PascalCase', 'UPPER_CASE'],
+        },
+        { selector: 'function', format: ['camelCase', 'PascalCase'] },
+        { selector: 'variable', types: ['function'], modifiers: ['const'], format: ['PascalCase'] },
+        { selector: 'property', modifiers: ['requiresQuotes'], format: null },
+        { selector: 'property', format: ['camelCase', 'snake_case'] },
+        { selector: 'variable', modifiers: ['destructured'], format: null },
+        {
+          selector: 'typeAlias',
+          format: ['PascalCase'],
+          custom: { regex: '^T[A-Z]', match: false },
+        },
+        { selector: 'typeParameter', format: ['PascalCase'], prefix: ['T'] },
+      ],
+      '@typescript-eslint/no-confusing-non-null-assertion': 'error',
+      '@typescript-eslint/no-empty-function': 'error',
+      '@typescript-eslint/no-import-type-side-effects': 'error',
+      '@typescript-eslint/no-inferrable-types': [
+        'error',
+        {
+          ignoreParameters: false,
+          ignoreProperties: false,
+        },
+      ],
+      '@typescript-eslint/no-invalid-this': 'error',
+      '@typescript-eslint/no-loop-func': 'error',
+      '@typescript-eslint/no-loss-of-precision': 'error',
+      '@typescript-eslint/no-magic-numbers': [
+        'warn',
+        {
+          detectObjects: false,
+          ignore: [0, 1, -1, 2],
+          ignoreArrayIndexes: true,
+          ignoreDefaultValues: true,
+          enforceConst: true,
+          ignoreNumericLiteralTypes: true,
+        },
+      ],
+      '@typescript-eslint/no-redeclare': [
+        'error',
+        {
+          ignoreDeclarationMerge: true,
+        },
+      ],
+      '@typescript-eslint/no-shadow': [
+        'error',
+        {
+          hoist: 'never',
+          ignoreTypeValueShadow: true,
+        },
+      ],
+      '@typescript-eslint/no-unnecessary-qualifier': 'error',
+      '@typescript-eslint/no-unsafe-type-assertion': 'error',
+      '@typescript-eslint/no-use-before-define': [
+        'error',
+        {
+          functions: false,
+          classes: true,
+          variables: true,
+          enums: true,
+          typedefs: false,
+        },
+      ],
+      '@typescript-eslint/no-useless-empty-export': 'error',
+      '@typescript-eslint/no-var-requires': 'error',
+      '@typescript-eslint/prefer-destructuring': [
+        'warn',
+        {
+          VariableDeclarator: { object: true, array: false },
+          AssignmentExpression: { object: false, array: false },
+        },
+        { enforceForRenamedProperties: false, enforceForDeclarationWithTypeAnnotation: false },
+      ],
+      '@typescript-eslint/prefer-enum-initializers': 'error',
+      '@typescript-eslint/prefer-find': 'error',
+      '@typescript-eslint/prefer-for-of': 'error',
+      '@typescript-eslint/prefer-function-type': 'error',
+      '@typescript-eslint/prefer-includes': 'error',
+      '@typescript-eslint/prefer-nullish-coalescing': [
+        'error',
+        {
+          ignoreConditionalTests: true,
+          ignoreMixedLogicalExpressions: true,
+          ignorePrimitives: { string: true, number: true },
+          ignoreTernaryTests: false,
+          ignoreIfStatements: false,
+        },
+      ],
+      '@typescript-eslint/prefer-optional-chain': 'error',
+      '@typescript-eslint/prefer-readonly': 'error',
+      '@typescript-eslint/prefer-string-starts-ends-with': 'error',
+      '@typescript-eslint/prefer-ts-expect-error': 'error',
+      '@typescript-eslint/promise-function-async': [
+        'warn',
+        {
+          checkArrowFunctions: false,
+          checkFunctionDeclarations: true,
+          checkFunctionExpressions: true,
+          checkMethodDeclarations: true,
+          allowAny: true,
+        },
+      ],
+      '@typescript-eslint/require-array-sort-compare': [
+        'error',
+        {
+          ignoreStringArrays: true,
+        },
+      ],
+      '@typescript-eslint/strict-boolean-expressions': [
+        'error',
+        {
+          allowString: false,
+          allowNumber: false,
+          allowNullableObject: false,
+          allowNullableBoolean: false,
+          allowNullableString: false,
+          allowNullableNumber: false,
+          allowAny: false,
+        },
+      ],
+      '@typescript-eslint/switch-exhaustiveness-check': 'error',
+    },
+  },
+
   { name: 'typescript/disable-type-checked', files: JS_FILE_GLOBS, ...configs.disableTypeChecked },
   // #endregion TypeScript
 
