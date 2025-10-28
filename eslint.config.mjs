@@ -2,6 +2,7 @@ import js from '@eslint/js';
 import prettier from 'eslint-config-prettier';
 import importPlugin from 'eslint-plugin-import';
 import perfectionist from 'eslint-plugin-perfectionist';
+import unicorn from 'eslint-plugin-unicorn';
 import { defineConfig } from 'eslint/config';
 import { configs, parser } from 'typescript-eslint';
 
@@ -174,6 +175,24 @@ const eslintConfig = defineConfig([
     settings: { 'import/resolver': { typescript: true } },
   },
   // #endregion Import
+
+  // #region Unicorn
+  { name: 'unicorn/recommended', ...unicorn.configs.recommended },
+
+  {
+    name: 'unicorn/custom',
+    rules: {
+      'unicorn/better-regex': ['error', { sortCharacterClasses: false }],
+      'unicorn/consistent-destructuring': 'error',
+      'unicorn/custom-error-definition': 'error',
+      'unicorn/no-null': 'off',
+      'unicorn/prefer-import-meta-properties': 'error',
+      'unicorn/prefer-json-parse-buffer': 'error',
+      'unicorn/prevent-abbreviations': 'off',
+      'unicorn/require-post-message-target-origin': 'error',
+    },
+  },
+  // #endregion Unicorn
 
   // #region TypeScript
   {
