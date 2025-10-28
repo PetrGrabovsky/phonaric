@@ -1,23 +1,24 @@
-import { defineConfig } from 'eslint/config';
 import js from '@eslint/js';
 import prettier from 'eslint-config-prettier';
-import { parser, configs } from 'typescript-eslint';
+import perfectionist from 'eslint-plugin-perfectionist';
+import { defineConfig } from 'eslint/config';
+import { configs, parser } from 'typescript-eslint';
 
 const IGNORE_PATTERNS = ['node_modules/**', '.next/**', 'out/**', 'build/**', 'next-env.d.ts'];
 const TS_FILE_GLOBS = ['**/*.{ts,tsx}'];
 const JS_FILE_GLOBS = ['**/*.{js,jsx,mjs}'];
 
 const eslintConfig = defineConfig([
-  { name: 'ignores', ignores: IGNORE_PATTERNS },
+  { ignores: IGNORE_PATTERNS, name: 'ignores' },
 
   {
-    name: 'language',
-    linterOptions: { reportUnusedDisableDirectives: true },
     languageOptions: {
       ecmaVersion: 'latest',
-      sourceType: 'module',
       parserOptions: { ecmaFeatures: { jsx: true } },
+      sourceType: 'module',
     },
+    linterOptions: { reportUnusedDisableDirectives: true },
+    name: 'language',
   },
 
   // #region Core
@@ -26,16 +27,6 @@ const eslintConfig = defineConfig([
     ...js.configs.recommended,
     rules: {
       'array-callback-return': ['error', { allowImplicit: false, checkForEach: true }],
-      'no-await-in-loop': 'error',
-      'no-inner-declarations': ['error', 'both'],
-      'no-promise-executor-return': 'error',
-      'no-self-compare': 'error',
-      'no-template-curly-in-string': 'error',
-      'no-unassigned-vars': 'error',
-      'no-unmodified-loop-condition': 'error',
-      'no-unreachable-loop': 'error',
-      'no-useless-assignment': 'error',
-      'require-atomic-updates': 'error',
       'arrow-body-style': ['error', 'as-needed', { requireReturnForObjectLiteral: true }],
       curly: ['error', 'all'],
       'default-case-last': 'error',
@@ -44,6 +35,7 @@ const eslintConfig = defineConfig([
       'guard-for-in': 'error',
       'logical-assignment-operators': ['error', 'always'],
       'no-alert': 'error',
+      'no-await-in-loop': 'error',
       'no-bitwise': 'error',
       'no-caller': 'error',
       'no-console': ['warn', { allow: ['warn', 'error'] }],
@@ -56,6 +48,7 @@ const eslintConfig = defineConfig([
       'no-extra-label': 'error',
       'no-implicit-coercion': ['error', { allow: ['!!'] }],
       'no-implicit-globals': 'error',
+      'no-inner-declarations': ['error', 'both'],
       'no-iterator': 'error',
       'no-label-var': 'error',
       'no-labels': ['error', { allowLoop: false, allowSwitch: false }],
@@ -71,12 +64,19 @@ const eslintConfig = defineConfig([
       'no-object-constructor': 'error',
       'no-octal-escape': 'error',
       'no-plusplus': ['error', { allowForLoopAfterthoughts: true }],
+      'no-promise-executor-return': 'error',
       'no-proto': 'error',
       'no-return-assign': ['error', 'always'],
       'no-script-url': 'error',
+      'no-self-compare': 'error',
       'no-sequences': 'error',
+      'no-template-curly-in-string': 'error',
+      'no-unassigned-vars': 'error',
       'no-undef-init': 'error',
+      'no-unmodified-loop-condition': 'error',
       'no-unneeded-ternary': ['error', { defaultAssignment: false }],
+      'no-unreachable-loop': 'error',
+      'no-useless-assignment': 'error',
       'no-useless-call': 'error',
       'no-useless-computed-key': 'error',
       'no-useless-concat': 'error',
@@ -87,8 +87,8 @@ const eslintConfig = defineConfig([
       'no-warning-comments': [
         'warn',
         {
-          terms: ['todo', 'fixme', 'hack', 'xxx'],
           location: 'anywhere',
+          terms: ['todo', 'fixme', 'hack', 'xxx'],
         },
       ],
       'object-shorthand': ['error', 'always'],
@@ -112,29 +112,30 @@ const eslintConfig = defineConfig([
       'prefer-template': 'error',
       'preserve-caught-error': 'error',
       radix: ['error', 'always'],
+      'require-atomic-updates': 'error',
       'require-unicode-regexp': 'error',
       'symbol-description': 'error',
-      yoda: ['error', 'never'],
       'unicode-bom': ['error', 'never'],
+      yoda: ['error', 'never'],
     },
   },
   // #endregion Core
 
   // #region TypeScript
   {
-    name: 'typescript/setup',
     files: TS_FILE_GLOBS,
     languageOptions: {
       parser,
       parserOptions: { projectService: true, tsconfigRootDir: import.meta.dirname },
     },
+    name: 'typescript/setup',
   },
 
   ...configs.strictTypeChecked,
 
   {
-    name: 'typescript/custom',
     files: TS_FILE_GLOBS,
+    name: 'typescript/custom',
     rules: {
       '@typescript-eslint/adjacent-overload-signatures': 'error',
       '@typescript-eslint/array-type': [
@@ -162,8 +163,8 @@ const eslintConfig = defineConfig([
       '@typescript-eslint/consistent-type-imports': [
         'error',
         {
-          prefer: 'type-imports',
           fixStyle: 'inline-type-imports',
+          prefer: 'type-imports',
         },
       ],
       '@typescript-eslint/default-param-last': 'error',
@@ -177,39 +178,39 @@ const eslintConfig = defineConfig([
       '@typescript-eslint/naming-convention': [
         'error',
         {
-          selector: 'function',
+          filter: { match: true, regex: '^(GET|POST|PUT|PATCH|DELETE|HEAD|OPTIONS)$' },
+          format: null,
           modifiers: ['exported'],
-          filter: { match: true, regex: '^(GET|POST|PUT|PATCH|DELETE|HEAD|OPTIONS)$' },
-          format: null,
+          selector: 'function',
         },
         {
-          selector: 'variable',
+          filter: { match: true, regex: '^(GET|POST|PUT|PATCH|DELETE|HEAD|OPTIONS)$' },
+          format: null,
           modifiers: ['exported', 'const'],
-          filter: { match: true, regex: '^(GET|POST|PUT|PATCH|DELETE|HEAD|OPTIONS)$' },
-          format: null,
+          selector: 'variable',
         },
         {
-          selector: 'variableLike',
           format: ['camelCase'],
           leadingUnderscore: 'allow',
+          selector: 'variableLike',
           trailingUnderscore: 'forbid',
         },
         {
-          selector: 'variable',
-          modifiers: ['const'],
           format: ['camelCase', 'PascalCase', 'UPPER_CASE'],
+          modifiers: ['const'],
+          selector: 'variable',
         },
-        { selector: 'function', format: ['camelCase', 'PascalCase'] },
-        { selector: 'variable', types: ['function'], modifiers: ['const'], format: ['PascalCase'] },
-        { selector: 'property', modifiers: ['requiresQuotes'], format: null },
-        { selector: 'property', format: ['camelCase', 'snake_case'] },
-        { selector: 'variable', modifiers: ['destructured'], format: null },
+        { format: ['camelCase', 'PascalCase'], selector: 'function' },
+        { format: ['PascalCase'], modifiers: ['const'], selector: 'variable', types: ['function'] },
+        { format: null, modifiers: ['requiresQuotes'], selector: 'property' },
+        { format: ['camelCase', 'snake_case'], selector: 'property' },
+        { format: null, modifiers: ['destructured'], selector: 'variable' },
         {
-          selector: 'typeAlias',
+          custom: { match: false, regex: '^T[A-Z]' },
           format: ['PascalCase'],
-          custom: { regex: '^T[A-Z]', match: false },
+          selector: 'typeAlias',
         },
-        { selector: 'typeParameter', format: ['PascalCase'], prefix: ['T'] },
+        { format: ['PascalCase'], prefix: ['T'], selector: 'typeParameter' },
       ],
       '@typescript-eslint/no-confusing-non-null-assertion': 'error',
       '@typescript-eslint/no-empty-function': 'error',
@@ -228,10 +229,10 @@ const eslintConfig = defineConfig([
         'warn',
         {
           detectObjects: false,
+          enforceConst: true,
           ignore: [0, 1, -1, 2],
           ignoreArrayIndexes: true,
           ignoreDefaultValues: true,
-          enforceConst: true,
           ignoreNumericLiteralTypes: true,
         },
       ],
@@ -253,11 +254,11 @@ const eslintConfig = defineConfig([
       '@typescript-eslint/no-use-before-define': [
         'error',
         {
-          functions: false,
           classes: true,
-          variables: true,
           enums: true,
+          functions: false,
           typedefs: false,
+          variables: true,
         },
       ],
       '@typescript-eslint/no-useless-empty-export': 'error',
@@ -265,10 +266,10 @@ const eslintConfig = defineConfig([
       '@typescript-eslint/prefer-destructuring': [
         'warn',
         {
-          VariableDeclarator: { object: true, array: false },
-          AssignmentExpression: { object: false, array: false },
+          AssignmentExpression: { array: false, object: false },
+          VariableDeclarator: { array: false, object: true },
         },
-        { enforceForRenamedProperties: false, enforceForDeclarationWithTypeAnnotation: false },
+        { enforceForDeclarationWithTypeAnnotation: false, enforceForRenamedProperties: false },
       ],
       '@typescript-eslint/prefer-enum-initializers': 'error',
       '@typescript-eslint/prefer-find': 'error',
@@ -279,10 +280,10 @@ const eslintConfig = defineConfig([
         'error',
         {
           ignoreConditionalTests: true,
-          ignoreMixedLogicalExpressions: true,
-          ignorePrimitives: { string: true, number: true },
-          ignoreTernaryTests: false,
           ignoreIfStatements: false,
+          ignoreMixedLogicalExpressions: true,
+          ignorePrimitives: { number: true, string: true },
+          ignoreTernaryTests: false,
         },
       ],
       '@typescript-eslint/prefer-optional-chain': 'error',
@@ -292,11 +293,11 @@ const eslintConfig = defineConfig([
       '@typescript-eslint/promise-function-async': [
         'warn',
         {
+          allowAny: true,
           checkArrowFunctions: false,
           checkFunctionDeclarations: true,
           checkFunctionExpressions: true,
           checkMethodDeclarations: true,
-          allowAny: true,
         },
       ],
       '@typescript-eslint/require-array-sort-compare': [
@@ -308,21 +309,26 @@ const eslintConfig = defineConfig([
       '@typescript-eslint/strict-boolean-expressions': [
         'error',
         {
-          allowString: false,
-          allowNumber: false,
-          allowNullableObject: false,
-          allowNullableBoolean: false,
-          allowNullableString: false,
-          allowNullableNumber: false,
           allowAny: false,
+          allowNullableBoolean: false,
+          allowNullableNumber: false,
+          allowNullableObject: false,
+          allowNullableString: false,
+          allowNumber: false,
+          allowString: false,
         },
       ],
       '@typescript-eslint/switch-exhaustiveness-check': 'error',
     },
   },
 
-  { name: 'typescript/disable-type-checked', files: JS_FILE_GLOBS, ...configs.disableTypeChecked },
+  { files: JS_FILE_GLOBS, name: 'typescript/disable-type-checked', ...configs.disableTypeChecked },
   // #endregion TypeScript
+
+  {
+    name: 'perfectionist',
+    ...perfectionist.configs['recommended-natural'],
+  },
 
   { name: 'prettier/disable-conflicting-rules', ...prettier },
 ]);
