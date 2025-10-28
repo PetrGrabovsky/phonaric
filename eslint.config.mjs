@@ -1,5 +1,6 @@
 import js from '@eslint/js';
 import prettier from 'eslint-config-prettier';
+import importPlugin from 'eslint-plugin-import';
 import perfectionist from 'eslint-plugin-perfectionist';
 import { defineConfig } from 'eslint/config';
 import { configs, parser } from 'typescript-eslint';
@@ -120,6 +121,59 @@ const eslintConfig = defineConfig([
     },
   },
   // #endregion Core
+
+  // #region Import
+  { name: 'import/recommended', ...importPlugin.flatConfigs.recommended },
+  { name: 'import/typescript', ...importPlugin.flatConfigs.typescript },
+
+  {
+    name: 'import/custom',
+    rules: {
+      'import/consistent-type-specifier-style': ['error', 'prefer-top-level'],
+      'import/extensions': [
+        'error',
+        'never',
+        { ignorePackages: true, pattern: { json: 'always' } },
+      ],
+      'import/first': 'error',
+      'import/newline-after-import': 'error',
+      'import/no-absolute-path': 'error',
+      'import/no-amd': 'error',
+      'import/no-anonymous-default-export': 'error',
+      'import/no-commonjs': 'error',
+      'import/no-cycle': ['error', { ignoreExternal: true, maxDepth: Infinity }],
+      'import/no-deprecated': 'error',
+      'import/no-duplicates': 'error',
+      'import/no-dynamic-require': 'error',
+      'import/no-empty-named-blocks': 'error',
+      'import/no-extraneous-dependencies': [
+        'error',
+        {
+          devDependencies: [
+            '**/*.{config,cfg}.{js,ts,mjs,cjs}',
+            '**/*.config/index.{js,ts,mjs,cjs}',
+          ],
+          optionalDependencies: false,
+        },
+      ],
+      'import/no-mutable-exports': 'error',
+      'import/no-named-default': 'error',
+      'import/no-namespace': 'warn',
+      'import/no-relative-packages': 'error',
+      'import/no-relative-parent-imports': 'error',
+      'import/no-self-import': 'error',
+      'import/no-unassigned-import': [
+        'error',
+        {
+          allow: ['**/*.css'],
+        },
+      ],
+      'import/no-useless-path-segments': 'error',
+      'import/no-webpack-loader-syntax': 'error',
+    },
+    settings: { 'import/resolver': { typescript: true } },
+  },
+  // #endregion Import
 
   // #region TypeScript
   {
