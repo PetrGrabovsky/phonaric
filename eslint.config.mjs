@@ -2,6 +2,7 @@ import js from '@eslint/js';
 import prettier from 'eslint-config-prettier';
 import importPlugin from 'eslint-plugin-import';
 import perfectionist from 'eslint-plugin-perfectionist';
+import regexp from 'eslint-plugin-regexp';
 import unicorn from 'eslint-plugin-unicorn';
 import { defineConfig } from 'eslint/config';
 import { configs, parser } from 'typescript-eslint';
@@ -115,7 +116,6 @@ const eslintConfig = defineConfig([
       'preserve-caught-error': 'error',
       radix: ['error', 'always'],
       'require-atomic-updates': 'error',
-      'require-unicode-regexp': 'error',
       'symbol-description': 'error',
       'unicode-bom': ['error', 'never'],
       yoda: ['error', 'never'],
@@ -193,6 +193,53 @@ const eslintConfig = defineConfig([
     },
   },
   // #endregion Unicorn
+
+  // #region RegExp
+  { name: 'regexp/recommended', ...regexp.configs['flat/recommended'] },
+
+  {
+    name: 'regexp/custom',
+    rules: {
+      'regexp/grapheme-string-literal': 'warn',
+      'regexp/hexadecimal-escape': 'error',
+      'regexp/letter-case': [
+        'warn',
+        {
+          caseInsensitive: 'lowercase',
+          controlEscape: 'uppercase',
+          hexadecimalEscape: 'lowercase',
+          unicodeEscape: 'lowercase',
+        },
+      ],
+      'regexp/no-control-character': 'error',
+      'regexp/no-octal': 'error',
+      'regexp/no-standalone-backslash': 'error',
+      'regexp/no-super-linear-move': [
+        'error',
+        {
+          ignorePartial: true,
+          ignoreSticky: true,
+          report: 'certain',
+        },
+      ],
+      'regexp/prefer-escape-replacement-dollar-char': 'error',
+      'regexp/prefer-lookaround': 'error',
+      'regexp/prefer-named-backreference': 'error',
+      'regexp/prefer-named-capture-group': 'error',
+      'regexp/prefer-named-replacement': 'error',
+      'regexp/prefer-quantifier': 'error',
+      'regexp/prefer-regexp-exec': 'warn',
+      'regexp/prefer-regexp-test': 'error',
+      'regexp/prefer-result-array-groups': ['error', { strictTypes: true }],
+      'regexp/require-unicode-regexp': 'error',
+      'regexp/require-unicode-sets-regexp': 'error',
+      'regexp/sort-alternatives': 'warn',
+      'regexp/sort-character-class-elements': 'warn',
+      'regexp/unicode-escape': 'error',
+      'regexp/unicode-property': 'error',
+    },
+  },
+  // #endregion RegExp
 
   // #region TypeScript
   {
