@@ -2,6 +2,8 @@ import js from '@eslint/js';
 import prettier from 'eslint-config-prettier';
 import importPlugin from 'eslint-plugin-import';
 import perfectionist from 'eslint-plugin-perfectionist';
+import react from 'eslint-plugin-react';
+import reactHooks from 'eslint-plugin-react-hooks';
 import regexp from 'eslint-plugin-regexp';
 import unicorn from 'eslint-plugin-unicorn';
 import { defineConfig } from 'eslint/config';
@@ -231,7 +233,6 @@ const eslintConfig = defineConfig([
       'regexp/prefer-regexp-exec': 'warn',
       'regexp/prefer-regexp-test': 'error',
       'regexp/prefer-result-array-groups': ['error', { strictTypes: true }],
-      'regexp/require-unicode-regexp': 'error',
       'regexp/require-unicode-sets-regexp': 'error',
       'regexp/sort-alternatives': 'warn',
       'regexp/sort-character-class-elements': 'warn',
@@ -444,6 +445,147 @@ const eslintConfig = defineConfig([
 
   { files: JS_FILE_GLOBS, name: 'typescript/disable-type-checked', ...configs.disableTypeChecked },
   // #endregion TypeScript
+
+  // #region React
+  {
+    files: TS_FILE_GLOBS,
+    name: 'react/setup',
+    plugins: { react, 'react-hooks': reactHooks },
+    settings: { react: { version: 'detect' } },
+  },
+
+  {
+    files: TS_FILE_GLOBS,
+    name: 'react/recommended',
+    ...react.configs.flat.recommended,
+  },
+
+  {
+    files: TS_FILE_GLOBS,
+    name: 'react/custom',
+    rules: {
+      'react/boolean-prop-naming': [
+        'error',
+        {
+          message: 'Boolean props must use "is", "has", "can", or "should" prefixes in PascalCase.',
+          rule: '^(is|has|can|should)[A-Z][A-Za-z0-9]*$',
+          validateNested: true,
+        },
+      ],
+      'react/button-has-type': 'error',
+      'react/checked-requires-onchange-or-readonly': 'error',
+      'react/destructuring-assignment': ['error', 'always', { destructureInSignature: 'always' }],
+      'react/forbid-component-props': ['error', { forbid: ['style'] }],
+      'react/forbid-dom-props': ['error', { forbid: ['style'] }],
+      'react/forbid-elements': [
+        'error',
+        {
+          forbid: [
+            { element: 'b', message: 'Use <strong> for semantic emphasis' },
+            { element: 'i', message: 'Use <em> for semantic emphasis' },
+            { element: 'u', message: 'Avoid underline, use CSS if necessary' },
+            { element: 'font', message: 'Deprecated, use CSS classes' },
+            {
+              element: 'center',
+              message: 'Deprecated, use CSS utilities (e.g. Tailwind text-center)',
+            },
+            { element: 'marquee', message: 'Deprecated, use CSS or JS animations' },
+            { element: 'strike', message: 'Deprecated, use <s> or <del> instead' },
+            { element: 'blink', message: 'Deprecated, use CSS or JS animations' },
+            { element: 'tt', message: 'Deprecated, use CSS instead of teletype styling' },
+            { element: 'acronym', message: 'Deprecated, use <abbr> with a title attribute' },
+          ],
+        },
+      ],
+      'react/forward-ref-uses-ref': 'error',
+      'react/function-component-definition': [
+        'error',
+        { namedComponents: 'arrow-function', unnamedComponents: 'arrow-function' },
+      ],
+      'react/hook-use-state': 'error',
+      'react/iframe-missing-sandbox': 'error',
+      'react/jsx-boolean-value': ['error', 'never'],
+      'react/jsx-child-element-spacing': 'error',
+      'react/jsx-curly-brace-presence': [
+        'error',
+        {
+          children: 'never',
+          propElementValues: 'always',
+          props: 'never',
+        },
+      ],
+      'react/jsx-filename-extension': ['error', { extensions: ['.tsx'] }],
+      'react/jsx-fragments': ['error', 'syntax'],
+      'react/jsx-handler-names': [
+        'warn',
+        {
+          eventHandlerPrefix: 'handle',
+          eventHandlerPropPrefix: 'on',
+        },
+      ],
+      'react/jsx-no-bind': [
+        'warn',
+        {
+          allowArrowFunctions: true,
+          allowBind: false,
+          allowFunctions: false,
+          ignoreDOMComponents: true,
+          ignoreRefs: true,
+        },
+      ],
+      'react/jsx-no-constructed-context-values': 'error',
+      'react/jsx-no-leaked-render': [
+        'error',
+        {
+          validStrategies: ['coerce', 'ternary'],
+        },
+      ],
+      'react/jsx-no-literals': [
+        'error',
+        {
+          allowedStrings: ['—', '…', '™', '©', '®', 'OK'],
+          ignoreProps: true,
+          noStrings: true,
+        },
+      ],
+      'react/jsx-no-script-url': 'error',
+      'react/jsx-no-useless-fragment': ['error', { allowExpressions: true }],
+      'react/jsx-pascal-case': [
+        'error',
+        {
+          allowAllCaps: true,
+          allowLeadingUnderscore: true,
+          allowNamespace: false,
+        },
+      ],
+      'react/jsx-props-no-spread-multi': 'error',
+      'react/no-adjacent-inline-elements': 'warn',
+      'react/no-array-index-key': 'error',
+      'react/no-danger': 'error',
+      'react/no-invalid-html-attribute': 'error',
+      'react/no-namespace': 'error',
+      'react/no-object-type-as-default-prop': 'error',
+      'react/no-this-in-sfc': 'error',
+      'react/no-unstable-nested-components': ['warn', { allowAsProps: true }],
+      'react/self-closing-comp': ['error', { component: true, html: true }],
+      'react/void-dom-elements-no-children': 'error',
+    },
+  },
+
+  {
+    files: TS_FILE_GLOBS,
+    name: 'react/jsx-runtime',
+    ...react.configs.flat['jsx-runtime'],
+  },
+
+  {
+    files: TS_FILE_GLOBS,
+    name: 'react-hooks/recommended',
+    rules: {
+      ...reactHooks.configs.recommended.rules,
+    },
+  },
+  // #endregion React
 
   {
     name: 'perfectionist',
