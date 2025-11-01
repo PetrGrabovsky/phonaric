@@ -1,4 +1,5 @@
 import js from '@eslint/js';
+import nextPlugin from '@next/eslint-plugin-next';
 import prettier from 'eslint-config-prettier';
 import importPlugin from 'eslint-plugin-import';
 import jsxA11y from 'eslint-plugin-jsx-a11y';
@@ -600,6 +601,12 @@ const eslintConfig = defineConfig([
     },
   },
   // #endregion A11y
+
+  {
+    files: TS_FILE_GLOBS,
+    name: 'next',
+    ...nextPlugin.configs.recommended,
+  },
 
   {
     name: 'perfectionist',
