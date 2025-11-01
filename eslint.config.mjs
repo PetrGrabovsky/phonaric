@@ -1,6 +1,7 @@
 import js from '@eslint/js';
 import prettier from 'eslint-config-prettier';
 import importPlugin from 'eslint-plugin-import';
+import jsxA11y from 'eslint-plugin-jsx-a11y';
 import perfectionist from 'eslint-plugin-perfectionist';
 import react from 'eslint-plugin-react';
 import reactHooks from 'eslint-plugin-react-hooks';
@@ -586,6 +587,19 @@ const eslintConfig = defineConfig([
     },
   },
   // #endregion React
+
+  // #region A11y
+  {
+    files: TS_FILE_GLOBS,
+    name: 'jsx-a11y',
+    ...jsxA11y.flatConfigs.recommended,
+    rules: {
+      'jsx-a11y/lang': 'error',
+      'jsx-a11y/no-aria-hidden-on-focusable': 'error',
+      'jsx-a11y/prefer-tag-over-role': 'error',
+    },
+  },
+  // #endregion A11y
 
   {
     name: 'perfectionist',
