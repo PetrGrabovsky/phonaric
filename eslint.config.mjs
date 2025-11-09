@@ -165,7 +165,6 @@ const eslintConfig = defineConfig([
       'import/no-named-default': 'error',
       'import/no-namespace': 'warn',
       'import/no-relative-packages': 'error',
-      'import/no-relative-parent-imports': 'error',
       'import/no-self-import': 'error',
       'import/no-unassigned-import': [
         'error',
@@ -175,8 +174,27 @@ const eslintConfig = defineConfig([
       ],
       'import/no-useless-path-segments': 'error',
       'import/no-webpack-loader-syntax': 'error',
+      'no-restricted-imports': ['error', { patterns: ['../**'] }],
     },
-    settings: { 'import/resolver': { typescript: true } },
+    settings: {
+      'import/resolver': {
+        typescript: {
+          project: ['tsconfig.json'],
+          alwaysTryTypes: true,
+        },
+        node: {
+          extensions: ['.js', '.jsx', '.ts', '.tsx'],
+        },
+      },
+    },
+  },
+
+  {
+    name: 'imports/allow-relative-in-components',
+    files: ['src/components/**/*.{ts,tsx}'],
+    rules: {
+      'no-restricted-imports': 'off',
+    },
   },
   // #endregion Import
 
@@ -189,6 +207,7 @@ const eslintConfig = defineConfig([
       'unicorn/better-regex': ['error', { sortCharacterClasses: false }],
       'unicorn/consistent-destructuring': 'error',
       'unicorn/custom-error-definition': 'error',
+      'unicorn/filename-case': ['error', { cases: { kebabCase: true, pascalCase: true } }],
       'unicorn/no-null': 'off',
       'unicorn/prefer-import-meta-properties': 'error',
       'unicorn/prefer-json-parse-buffer': 'error',
@@ -319,12 +338,17 @@ const eslintConfig = defineConfig([
           trailingUnderscore: 'forbid',
         },
         {
+          format: ['PascalCase'],
+          modifiers: ['const', 'exported'],
+          selector: 'variable',
+          types: ['function'],
+        },
+        {
           format: ['camelCase', 'PascalCase', 'UPPER_CASE'],
           modifiers: ['const'],
           selector: 'variable',
         },
         { format: ['camelCase', 'PascalCase'], selector: 'function' },
-        { format: ['PascalCase'], modifiers: ['const'], selector: 'variable', types: ['function'] },
         { format: null, modifiers: ['requiresQuotes'], selector: 'property' },
         { format: ['camelCase', 'snake_case'], selector: 'property' },
         { format: null, modifiers: ['destructured'], selector: 'variable' },

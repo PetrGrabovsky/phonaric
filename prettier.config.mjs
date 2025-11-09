@@ -1,6 +1,7 @@
 /** @type {import("prettier").Config} */
 const prettierConfig = {
   plugins: [
+    '@prettier/plugin-xml',
     'prettier-plugin-tailwindcss',
     'prettier-plugin-packagejson',
     'prettier-plugin-prisma',
